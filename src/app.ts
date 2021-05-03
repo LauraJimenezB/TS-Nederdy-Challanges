@@ -47,51 +47,51 @@ const allReadings = [
 ];
 
 
-let processedReading: TemperatureReading[];
+class Summary implements TemperatureSummary {
+  constructor (public first:number, public last: number, public high:number, public low:number, public average:number) {
+  }
+};
 
-export function processReadings(readings: TemperatureReading[]): void {
-  // add here your code
-  processedReading = readings;
-  console.log(processedReading)
+let processedReadings: TemperatureSummary;
+
+function processReadings(readings: TemperatureReading[]): void {
+// add here your code
+ const listByTime= readings.sort((a, b) => (a.time > b.time) ? 1 : -1)
+  const listByTemperature= readings.sort((a, b) => (a.temperature > b.temperature) ? 1 : -1);
+
+  const first = listByTime[0].temperature;
+  const last = listByTime[listByTime.length-1].temperature;
+  const low = listByTemperature[0].temperature;
+  const high = listByTemperature[listByTemperature.length-1].temperature;
+
+  let result = 0;
+  for (let i of readings) {
+    if (i.temperature) {
+      result += i.temperature;
+    }
+  }
+  const average = result / readings.length;
+  
+  processedReadings = new Summary(first, last, high, low, average);
 }
 
-export function getTemperatureSummary(date: Date, city: string): void {
+function getTemperatureSummary(date: Date, city: string): void {
   //add here your code
   const readingsOfTheDay: TemperatureReading[] =  
   allReadings.filter(reading=>reading.city===city && reading.time.getTime()===date.getTime());
-  
-  class Summary implements TemperatureSummary {
-    constructor (public first:number, public last: number, public high:number, public low:number, public average:number) {
-    }
-  };
 
-  let summary;
+  let summary: TemperatureSummary | null;
 
-  if (readingsOfTheDay.length > 0) {
+  if(readingsOfTheDay.length > 0) {
 
-    const listByTime= readingsOfTheDay.sort((a, b) => (a.time > b.time) ? 1 : -1)
-    const listByTemperature= readingsOfTheDay.sort((a, b) => (a.temperature > b.temperature) ? 1 : -1);
-
-    const first = listByTime[0].temperature;
-    const last = listByTime[listByTime.length-1].temperature;
-    const low = listByTemperature[0].temperature;
-    const high = listByTemperature[listByTemperature.length-1].temperature;
-
-    let result = 0;
-    for (let i of readingsOfTheDay) {
-      if (i.temperature) {
-        result += i.temperature;
-      }
-    }
-    const average = result / readingsOfTheDay.length;
-    
-    summary = new Summary(first, last, high, low, average);
+    processReadings(readingsOfTheDay);
+    summary = processedReadings;
 
   } else {
     summary = null;
-  } 
-  
-  console.log(summary); 
+  }
+
+  console.log(summary)
 }
 
 /* exports.processReadings = processReadings
