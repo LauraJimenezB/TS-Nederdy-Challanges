@@ -13,6 +13,7 @@ interface TemperatureSummary {
   average: number
 }
 
+<<<<<<< HEAD
 const allReadings = [
 	{
 		time: new Date('1/1/2021'),
@@ -96,3 +97,16 @@ function getTemperatureSummary(date: Date, city: string): void {
 
 /* exports.processReadings = processReadings
 exports.getTemperatureSummary = getTemperatureSummary */
+=======
+export function processReadings(readings: TemperatureReading[]): void {
+  // add here your code
+}
+
+export function getTemperatureSummary(
+  date: Date,
+  city: string,
+): TemperatureSummary | null {
+  //add here your code
+  return null
+}
+>>>>>>> upstream/main
