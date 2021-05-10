@@ -1,3 +1,56 @@
+const allReadings = [
+  {
+    time: new Date('1/3/2021'),
+    temperature: 8,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 10,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 9,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 12,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 11,
+    city: 'Utah',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 15,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 10,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 11,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 9,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/13/2021'),
+    temperature: 16,
+    city: 'New York',
+  },
+]
+
 // example interfaces that can be use
 // TIP: the types mentioned in the interfaces must be fulfilled in order to solve the problem.
 interface TemperatureReading {
@@ -13,51 +66,18 @@ interface TemperatureSummary {
   average: number
 }
 
-<<<<<<< HEAD
-const allReadings = [
-	{
-		time: new Date('1/1/2021'),
-		temperature: 10,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 9,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 11,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 3,
-		city: 'New York',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 2,
-		city: 'New York',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 7,
-		city: 'New York',
-	},
-];
 
-
-class Summary implements TemperatureSummary {
-  constructor (public first:number, public last: number, public high:number, public low:number, public average:number) {
-  }
+let processedReadings: TemperatureSummary = {
+  first:0, 
+  last: 0, 
+  high:0, 
+  low:0, 
+  average:0
 };
 
-let processedReadings: TemperatureSummary;
-
-function processReadings(readings: TemperatureReading[]): void {
-// add here your code
- const listByTime= readings.sort((a, b) => (a.time > b.time) ? 1 : -1)
+export function processReadings(readings: TemperatureReading[]): void {
+  // add here your code
+  const listByTime= readings.sort((a, b) => (a.time > b.time) ? 1 : -1)
   const listByTemperature= readings.sort((a, b) => (a.temperature > b.temperature) ? 1 : -1);
 
   const first = listByTime[0].temperature;
@@ -72,15 +92,22 @@ function processReadings(readings: TemperatureReading[]): void {
     }
   }
   const average = result / readings.length;
-  
-  processedReadings = new Summary(first, last, high, low, average);
+    
+  processedReadings.first = first;
+  processedReadings.last = last;
+  processedReadings.low = low;
+  processedReadings.high = high;
+  processedReadings.average = average;
 }
 
-function getTemperatureSummary(date: Date, city: string): void {
+export function getTemperatureSummary(
+  date: Date,
+  city: string,
+): TemperatureSummary | null {
   //add here your code
   const readingsOfTheDay: TemperatureReading[] =  
   allReadings.filter(reading=>reading.city===city && reading.time.getTime()===date.getTime());
-
+  
   let summary: TemperatureSummary | null;
 
   if(readingsOfTheDay.length > 0) {
@@ -91,22 +118,5 @@ function getTemperatureSummary(date: Date, city: string): void {
   } else {
     summary = null;
   }
-
-  console.log(summary)
+  return summary;
 }
-
-/* exports.processReadings = processReadings
-exports.getTemperatureSummary = getTemperatureSummary */
-=======
-export function processReadings(readings: TemperatureReading[]): void {
-  // add here your code
-}
-
-export function getTemperatureSummary(
-  date: Date,
-  city: string,
-): TemperatureSummary | null {
-  //add here your code
-  return null
-}
->>>>>>> upstream/main
