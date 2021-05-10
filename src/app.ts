@@ -77,21 +77,18 @@ let processedReadings: TemperatureSummary = {
 
 export function processReadings(readings: TemperatureReading[]): void {
   // add here your code
-  const listByTime= readings.sort((a, b) => (a.time > b.time) ? 1 : -1)
-  const listByTemperature= readings.sort((a, b) => (a.temperature > b.temperature) ? 1 : -1);
+  const first = readings[0].temperature;
+  const last = readings[readings.length-1].temperature;
 
-  const first = listByTime[0].temperature;
-  const last = listByTime[listByTime.length-1].temperature;
+  const listByTemperature= readings.sort((a, b) => (a.temperature > b.temperature) ? 1 : -1);
   const low = listByTemperature[0].temperature;
   const high = listByTemperature[listByTemperature.length-1].temperature;
 
-  let result = 0;
-  for (let i of readings) {
-    if (i.temperature) {
-      result += i.temperature;
-    }
+  let result: number = 0;
+  for (let singleReading of readings) {
+    result += singleReading.temperature;
   }
-  const average = result / readings.length;
+  let average: number = result / readings.length;
     
   processedReadings.first = first;
   processedReadings.last = last;
